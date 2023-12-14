@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Calculator</title>
+</head>
+<body>
+    <div id="main">
+        <h1>Calculate Your Material</h1>
+        <label for="material-price">Price of Material(One Kyat weight in MMK)</label>
+        <input id="material-price" name="material-price" type="number" min="0" value="0" onchange="Calculate()">
+
+        <h3>Weight system</h3>
+        <label for="weight-system">Burmese system</label>
+        <input id="burmese-weight-system" name="weight-system" type="radio" value="burmese" onchange="Calculate()">
+        <label for="weight-system">SI system</label>
+        <input id="burmese-weight-system" name="weight-system" type="radio" value="si" onchange="Calculate()">
+        
+        <div id="burmese-weight">
+            <h4>Weight input</h4>
+            <label for="kyat">Kyat</label>
+            <input id="burmese-kyat-weight-input" name="kyat" type="number" min="0" value="0" onchange="Calculate()">
+            <label for="pae">Pae</label>
+            <input id="burmese-pae-weight-input" name="pae" type="number" min="0" max="15" value="0" onchange="Calculate()">
+            <label for="ywae">Ywae</label>
+            <input id="burmese-ywae-weight-input" name="ywae" type="number" min="0" max="8" value="0" onchange="Calculate()">
+        </div>
+        <div id="si-weight">
+            <label>Weight input (gram)</label>
+            <input id="si-weight-input" type="number" min="0" value="0" onchange="Calculate()">
+        </div>
+        <label>Truth weight (100% = 16/16)</label>
+        <input id="true-weight" type="number" min="0" max="16" value="16" onchange="Calculate()">
+        <div id="answer">
+            <h2>Results</h2>
+            <p id="total-price">Total price: 0 MMK</p>
+            <p id="total-weight-in-burmese">Total price: 0 MMK</p>
+            <p id="total-weight-in-gram">Total price: 0 MMK</p>
+            <p id="total-price">Total price: 0 MMK</p>
+        </div>
+    </div>
+</body>
+</html>

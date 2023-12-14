@@ -12,4 +12,4 @@ Project detail
         Weight and price for material used. (e.g. gold, silver, platimum)
     
     Crystal
-        Weight and price for crystals contained by jewel. (e.g. gold, silver, platimum)
+        Weight and price for crystals contained by jewel. (e.g. Jade, Diamond, Pearl)
