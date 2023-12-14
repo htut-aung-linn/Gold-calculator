@@ -14,9 +14,9 @@
 
         <h3>Weight system</h3>
         <label for="weight-system">Burmese system</label>
-        <input id="burmese-weight-system" name="weight-system" type="radio" value="burmese" onchange="Calculate()">
+        <input id="burmese-weight-system" name="weight-system" type="radio" value="burmese" onchange="upd(this.value)" checked>
         <label for="weight-system">SI system</label>
-        <input id="burmese-weight-system" name="weight-system" type="radio" value="si" onchange="Calculate()">
+        <input id="si-weight-system" name="weight-system" type="radio" value="si" onchange="upd(this.value)">
         
         <div id="burmese-weight">
             <h4>Weight input</h4>
@@ -29,17 +29,82 @@
         </div>
         <div id="si-weight">
             <label>Weight input (gram)</label>
-            <input id="si-weight-input" type="number" min="0" value="0" onchange="Calculate()">
+            <input id="gram-weight-input" type="number" min="0" value="0" onchange="Calculate()">
         </div>
         <label>Truth weight (100% = 16/16)</label>
         <input id="true-weight" type="number" min="0" max="16" value="16" onchange="Calculate()">
         <div id="answer">
             <h2>Results</h2>
-            <p id="total-price">Total price: 0 MMK</p>
-            <p id="total-weight-in-burmese">Total price: 0 MMK</p>
-            <p id="total-weight-in-gram">Total price: 0 MMK</p>
-            <p id="total-price">Total price: 0 MMK</p>
+            <p id="total-price">Total price: <span>0<span> MMK</p>
+            <p id="total-weight-in-burmese">Total Weight: <span>0</span> Kyat</p>
+            <p id="total-weight-in-gram">Total weight(gram): <span>0</span> g</p>
         </div>
     </div>
+    <script>
+        const materialPrice = document.getElementById("material-price");
+        const burmeseWeightSystem = document.getElementById("burmese-weight-system");
+        const siWeightSystem = document.getElementById("si-weight-system");
+        const kyatInput = document.getElementById("burmese-kyat-weight-input");
+        const paeInput = document.getElementById("burmese-pae-weight-input");
+        const ywaeInput = document.getElementById("burmese-ywae-weight-input");
+        const gramInput = document.getElementById("gram-weight-input");
+        const truthWeightInput = document.getElementById("true-weight");
+
+        const burmeseW = document.getElementById("burmese-weight");
+        const siW = document.getElementById("si-weight");
+        //burmeseW.style.display = "none"
+        siW.style.display = "none";
+        let system = "burmese";
+
+        const totalPriceResult = document.getElementById("total-price");
+        const totalWeightBurmeseResult = document.getElementById("total-weight-in-burmese");
+        const totalWeightGramResult = document.getElementById("total-weight-in-gram");
+
+        function upd(value){
+            system = value;
+            console.log(system);
+            if(system==="si"){
+                burmeseW.style.display = "none"
+                siW.style.display = "block";
+            }else{
+                burmeseW.style.display = "block"
+                siW.style.display = "none";
+            }
+            Calculate();
+        }
+
+        function Calculate(){
+            let totalPrice = 0;
+            let totalWeightInBurmese = 0; //kyat
+            let totalWeightInSi = 0; //gram
+            const price = parseFloat(materialPrice.value);
+            const paeyae = parseFloat(truthWeightInput.value);
+
+            totalPrice = price * (paeyae/16); // for 1 kyat
+            console.log(paeyae/16);
+            if(system==="burmese"){
+                const kyat = parseFloat(kyatInput.value);
+                const pae = parseFloat(paeInput.value);
+                const ywae = parseFloat(ywaeInput.value);
+                
+                totalWeightInBurmese = kyat + (pae/16) + (ywae/(16*8));
+                totalWeightInSi = totalWeightInBurmese * 16.6;
+                
+            }else{
+                const gram = parseFloat(gramInput.value);
+                totalWeightInSi = gram;
+                totalWeightInBurmese = totalWeightInSi/16.6;
+            }
+            totalPrice *= totalWeightInBurmese; 
+            const totalKyat = parseInt(totalWeightInBurmese);
+            const totalPae = parseInt((totalWeightInBurmese-totalKyat)*16);
+            const totalYwae = parseFloat((((totalWeightInBurmese-totalKyat)*16)-totalPae)*8).toFixed(2);
+
+            totalPriceResult.innerHTML = "Total price: <span>"+totalPrice.toString()+ "<span> MMK";
+            totalWeightBurmeseResult.innerHTML = "Total Weight: <span>"+totalPrice+"</span> Kyats ("+totalKyat+
+            " Kyats "+totalPae+" Pae "+totalYwae+" Ywae)";
+            totalWeightGramResult.innerHTML = "Total weight: <span>"+totalWeightInSi.toString()+"</span> g";
+        }
+    </script>
 </body>
 </html>
