@@ -5,12 +5,85 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Material Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        #main {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1, h2, h3, h4 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .radio-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="number"] {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%; /* Adjust the width as needed */
+            box-sizing: border-box;
+            display: inline-block;
+            font-size: 1.3em;
+        }
+
+        button {
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #answer {
+            margin-top: 20px;
+        }
+
+        #answer p {
+            margin-bottom: 10px;
+        }
+        span{
+            font-size: 1.3em;
+            color: #000;
+        }
+    </style>
 </head>
 <body>
     <div id="main">
         <h1>Calculate Your Material</h1>
         <label for="material-price">Price of Material(One Kyat weight in MMK)</label>
-        <input id="material-price" name="material-price" type="number" min="0" value="0" onchange="Calculate()">
+        <input id="material-price" name="material-price" type="number" min="0" value="3800000" onchange="Calculate()">
 
         <h3>Weight system</h3>
         <label for="weight-system">Burmese system</label>
@@ -28,17 +101,19 @@
             <input id="burmese-ywae-weight-input" name="ywae" type="number" min="0" max="8" value="0" onchange="Calculate()">
         </div>
         <div id="si-weight">
-            <label>Weight input (gram)</label>
+            <h4>Weight input (gram)</h4>
             <input id="gram-weight-input" type="number" min="0" value="0" onchange="Calculate()">
         </div>
         <label>Truth weight (100% = 16/16)</label>
         <input id="true-weight" type="number" min="0" max="16" value="16" onchange="Calculate()">
+        <button onclick="Calculate()">Calculate</button>
         <div id="answer">
             <h2>Results</h2>
-            <p id="total-price">Total price: <span>0<span> MMK</p>
+            <p id="total-price">Total price: <span>0</span> MMK</p>
             <p id="total-weight-in-burmese">Total Weight: <span>0</span> Kyat</p>
             <p id="total-weight-in-gram">Total weight(gram): <span>0</span> g</p>
         </div>
+        
     </div>
     <script>
         const materialPrice = document.getElementById("material-price");
@@ -81,7 +156,7 @@
             const paeyae = parseFloat(truthWeightInput.value);
 
             totalPrice = price * (paeyae/16); // for 1 kyat
-            console.log(paeyae/16);
+            //console.log(paeyae/16);
             if(system==="burmese"){
                 const kyat = parseFloat(kyatInput.value);
                 const pae = parseFloat(paeInput.value);
@@ -100,10 +175,10 @@
             const totalPae = parseInt((totalWeightInBurmese-totalKyat)*16);
             const totalYwae = parseFloat((((totalWeightInBurmese-totalKyat)*16)-totalPae)*8).toFixed(2);
 
-            totalPriceResult.innerHTML = "Total price: <span>"+totalPrice.toString()+ "<span> MMK";
-            totalWeightBurmeseResult.innerHTML = "Total Weight: <span>"+totalPrice+"</span> Kyats ("+totalKyat+
-            " Kyats "+totalPae+" Pae "+totalYwae+" Ywae)";
-            totalWeightGramResult.innerHTML = "Total weight: <span>"+totalWeightInSi.toString()+"</span> g";
+            totalPriceResult.innerHTML = "Total price: <span>"+totalPrice.toFixed(2)+ "</span> MMK";
+            totalWeightBurmeseResult.innerHTML = "Total Weight: <span>"+totalWeightInBurmese.toFixed(4)+"</span> Kyats (<span>"+totalKyat+
+            "</span> Kyats <span>"+totalPae+"</span> Pae <span>"+totalYwae+"</span> Ywae)";
+            totalWeightGramResult.innerHTML = "Total weight: <span>"+totalWeightInSi.toFixed(4)+"</span> g";
         }
     </script>
 </body>
