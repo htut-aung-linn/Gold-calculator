@@ -84,13 +84,13 @@
         <h1>Calculate Your Material</h1>
         <label for="material-price">Price of Material(One Kyat weight in MMK)</label>
         <input id="material-price" name="material-price" type="number" min="0" value="3800000" onchange="Calculate()">
-
+        <hr>
         <h3>Weight system</h3>
         <label for="weight-system">Burmese system</label>
         <input id="burmese-weight-system" name="weight-system" type="radio" value="burmese" onchange="upd(this.value)" checked>
         <label for="weight-system">SI system</label>
         <input id="si-weight-system" name="weight-system" type="radio" value="si" onchange="upd(this.value)">
-        
+        <hr>
         <div id="burmese-weight">
             <h4>Weight input</h4>
             <label for="kyat">Kyat</label>
@@ -104,8 +104,10 @@
             <h4>Weight input (gram)</h4>
             <input id="gram-weight-input" type="number" min="0" value="0" onchange="Calculate()">
         </div>
+        <hr>
         <label>Truth weight (100% = 16/16)</label>
         <input id="true-weight" type="number" min="0" max="16" value="16" onchange="Calculate()">
+        <hr>
         <button onclick="Calculate()">Calculate</button>
         <div id="answer">
             <h2>Results</h2>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crystal Calculator</title>
+</head>
+<body>
+    <div id="main">
+        <h1>Crystal Calculator</h1>
+        <div id="price-group" class="group">
+            <h3>Price of Crystal</h3>
+            <div class="price-radio">
+                <input type="radio" id="one-carat" name="price-type" value="carat" onchange="weight_unit_change_for_price(this.value)" checked>
+                <label for="one-carat">One Carat</label>
+            </div>
+
+            <div class="price-radio">
+                <input type="radio" id="one-rati" name="price-type" onchange="weight_unit_change_for_price(this.value)" value="rati">
+                <label for="one-rati">One Rati</label>
+            </div>
+
+            <div class="price-radio">
+                <input type="radio" id="one-gram" name="price-type" onchange="weight_unit_change_for_price(this.value)" value="garm">
+                <label for="one-gram">One Gram</label>
+            </div>
+            
+            <label id="price">Price in One <span id="price-value">Carat</span></label>
+            <input type="number" id="price-input" value="0" min="0" onchange="update_price()">
+        </div>
+
+        <div id="truth-number-group" class="group">
+            <h3>Total Number/Weight of Crystal</h3>
+
+            <div class="total-radio">
+                <input type="radio" id="total-number" name="total" value="number" checked onchange="total_change(this.value)">
+                <label for="total-number">Total number</label>
+            </div>
+            <div class="total-radio">
+                <input type="radio" id="total-weight" name="total" value="weight" onchange="total_change(this.value)">
+                <label for="total-weight">Total weight</label>
+            </div>
+            <div id="total-number-gp">
+                <div id="truth-number-group" class="group">
+                    <h3>Truth Number of Crystal</h3>
+                    <div class="weight-radio">
+                        <input type="radio" id="number-carat" name="number-type" value="carat" onchange="change_unit_in_truth_number(this.value)" checked>
+                        <label for="number-carat">Carat</label>
+                    </div>
+        
+                    <div class="weight-radio">
+                        <input type="radio" id="number-rati" name="number-type" value="rati" onchange="change_unit_in_truth_number(this.value)">
+                        <label for="number-rati">Rati</label>
+                    </div>
+        
+                    <div class="weight-radio">
+                        <input type="radio" id="number-gram" name="number-type" value="garm" onchange="change_unit_in_truth_number(this.value)">
+                        <label for="number-gram">Gram</label>
+                    </div>
+                    <label>Constant Weight (<span id="wtype"></span>)</label>
+                    <input type="number" id="const-weight" min="0" value="0" onchange="numberCombine()">
+                    <label id="price">Number of Crystle</label>
+                    <input type="number" id="const-number" min="1" value="1" onchange="numberCombine()">
+                    
+                    <p> <span id="const-number-show">1</span> crystle(s) have <span id="weight-num-show">0</span> <span id="const-weight-show">Carat</span> in Weight.</p>
+                </div> 
+                <label>Total number</label>                    
+                <input type="number" id="total-number-input" value="0" min="0" onchange="numberCombine()">
+            </div>
+            <div id="total-weight-gp">
+                <h3>Total Weight</h3>
+                <div class="weight-radio">
+                    <label >Carat</label>
+                    <input type="radio" id="weight-carat" name="weight-type" value="carat" onchange="change_weight_type(this.value)">
+                </div>
+
+                <div class="weight-radio">
+                    <label >Rati</label>
+                    <input type="radio" id="weight-rati" name="weight-type" value="rati" onchange="change_weight_type(this.value)">
+                </div>
+
+                <div class="weight-radio">
+                    <label >Gram</label>
+                    <input type="radio" id="weoght-gram" name="weight-type" value="garm" onchange="change_weight_type(this.value)">
+                </div>
+                <label>Total Weight in <span id="total-w-unit">Carat</span></label>
+                <input type="number" id="total-weight-input" value="0" onchange="weightCombine()">
+            </div>
+        </div>
+        <div id="result">
+        </div>
+    </div>
+<script>
+    // Get all elements with the specified IDs
+    var mainElement = document.getElementById("main");
+    var priceInputElement = document.getElementById("price-input");
+    var totalNumberElement = document.getElementById("total-number-gp");
+    var totalWeightElement = document.getElementById("total-weight-gp");
+    var constNumberElement = document.getElementById("const-number");
+    const res = document.getElementById("result");
+
+    // calculating price
+    let weight_unit_in_price = "carat";
+    let price_in_one_gram = 0;
+    const unitLabel = document.getElementById("price-value");
+    const labelUnit = document.getElementById("const-weight-show");
+    price_in_one_gram = parseFloat(priceInputElement.value) * 5;
+    function weight_unit_change_for_price(val){
+        weight_unit_in_price = val;
+        update_price();
+    }
+
+    function update_price(){
+        const price = parseFloat(priceInputElement.value);
+        if(weight_unit_in_price==="carat"){
+            price_in_one_gram = 5 * price;
+            unitLabel.innerHTML = "Carat";
+        }else if(weight_unit_in_price==="rati"){
+            price_in_one_gram = (price/1.1) * 5;
+            unitLabel.innerHTML = "Rati";
+        }else{
+            price_in_one_gram = price;
+            unitLabel.innerHTML = "Gram";
+        }
+        console.log(price_in_one_gram);
+        if(totalType==="number"){
+            numberCombine()
+        }
+    }
+
+
+    //total weight or total number
+    totalNumberElement.style.display = "block";
+    totalWeightElement.style.display = "none";
+    let totalType= "number";
+    function total_change(val){
+        totalType = val;
+        if(totalType==="number"){
+            totalNumberElement.style.display = "block";
+            totalWeightElement.style.display = "none";
+        }else{
+            totalNumberElement.style.display = "none";
+            totalWeightElement.style.display = "block";
+        }
+    }
+
+    //number input
+
+    let number_unit = "carat";
+    let gram_in_one_crystle  = 0;
+    const constWeightLabel = document.getElementById("wtype");
+    
+    constWeightLabel.innerHTML = "Carat";
+    labelUnit.innerHTML = "Carat";
+    function change_unit_in_truth_number(val){
+        number_unit = val;
+        if(number_unit ==="carat"){
+            constWeightLabel.innerHTML = "Carat";
+            labelUnit.innerHTML = "Carat";
+        }else if(number_unit === "rati"){
+            constWeightLabel.innerHTML = "Rati";
+            labelUnit.innerHTML = "Rati"
+        }else{
+            constWeightLabel.innerHTML="Gram";
+            labelUnit.innerHTML = "g"
+        }
+        numberCombine();
+    }
+    
+    function numberCombine(){
+        const num_of_weight = parseFloat(document.getElementById("const-weight").value);
+        const num_of_crystle = parseFloat(document.getElementById("const-number").value);
+        document.getElementById("const-number-show").innerHTML = num_of_crystle.toString();
+        let totgram = 0;
+        if(number_unit==="carat"){
+            totgram = num_of_weight* 0.2;
+        }else if(number_unit==="rati"){
+            totgram = (num_of_weight/1.1) * 0.2;
+        }else{
+            totgram = num_of_weight;
+        }
+        gram_in_one_crystle =totgram/num_of_crystle;
+        console.log("gram per crystle", gram_in_one_crystle);
+        const totalnum = parseFloat(document.getElementById("total-number-input").value);
+        const totalp = totalnum * gram_in_one_crystle *price_in_one_gram;
+        console.log("total price", totalp);
+        const totalWeight ="<p><span>"+ totgram.toFixed(2) + "</span> g, <span>"+ (totgram*5).toFixed(2)+
+            "</span> Carat, <span>"+ (totgram*5);
+        res.innerHTML;
+    }
+    //weight input
+    let weight_type = "carat";
+    const total_w_unit = document.getElementById("total-w-unit");
+    function change_weight_type(val){
+        weight_type = val;
+        if(weight_type==="carat"){
+            total_w_unit.innerHTML = "Carat";
+        }else if(weight_type==="rati"){
+            total_w_unit.innerHTML = "Rati";
+        }else{
+            total_w_unit.innerHTML = "Gram";
+        }
+        weightCombine();
+    }
+    function weightCombine(){
+        const num_of_weight = parseFloat(document.getElementById("total-weight-input").value);
+        let totgram = 0;
+        if(weight_type ==="carat"){
+            totgram = num_of_weight* 0.2;
+        }else if(weight_type ==="rati"){
+            totgram = (num_of_weight/1.1) * 0.2;
+        }else{
+            totgram = num_of_weight;
+        }
+        console.log("total gram", totgram);
+        const totalp = totgram * price_in_one_gram;
+        console.log("total price", totalp);
+
+        
+    }
+</script>
+</body>
+</html>
