@@ -109,14 +109,14 @@
             <input id="gram-weight-input" type="number" min="0" value="0" onchange="Calculate()">
         </div>
         <hr>
-        <label>Truth weight (100% = 16/16)</label>
+        <label>Truth weight (ပဲရည်) (16/16)</label>
         <input id="true-weight" type="number" min="0" max="16" value="16" onchange="Calculate()">
         <hr>
         <button onclick="Calculate()">Calculate</button>
         <div id="answer">
             <h2>Results</h2>
             <p id="total-price">Total price: <span>0</span> MMK</p>
-            <p id="total-weight-in-burmese">Total Weight: <span>0</span> Kyat</p>
+            <p id="total-weight-in-burmese">Total Weight: <span>0</span> ကျပ်</p>
             <p id="total-weight-in-gram">Total weight(gram): <span>0</span> g</p>
         </div>
         
@@ -182,8 +182,8 @@
             const totalYwae = parseFloat((((totalWeightInBurmese-totalKyat)*16)-totalPae)*8).toFixed(2);
 
             totalPriceResult.innerHTML = "Total price: <span>"+totalPrice.toFixed(2)+ "</span> MMK";
-            totalWeightBurmeseResult.innerHTML = "Total Weight: <span>"+totalWeightInBurmese.toFixed(4)+"</span> Kyats (<span>"+totalKyat+
-            "</span> Kyats <span>"+totalPae+"</span> Pae <span>"+totalYwae+"</span> Ywae)";
+            totalWeightBurmeseResult.innerHTML = "Total Weight: <span>"+totalWeightInBurmese.toFixed(4)+"</span> ကျပ် (<span>"+totalKyat+
+            "</span> ကျပ် <span>"+totalPae+"</span> ပဲ <span>"+totalYwae+"</span> ​ရွေး)";
             totalWeightGramResult.innerHTML = "Total weight: <span>"+totalWeightInSi.toFixed(4)+"</span> g";
         }
     </script>
