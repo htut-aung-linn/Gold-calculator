@@ -5,6 +5,86 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crystal Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+    
+        #main {
+            max-width: 500px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+    
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+    
+        .group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #76f74f;
+            
+        }
+    
+        h3 {
+            color: #555;
+        }
+    
+        label {
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%; /* Adjust the width as needed */
+            box-sizing: border-box;
+            display: inline-block;
+            font-size: 1.3em;
+        }
+        
+        input[type="number"], input[type="radio"] {
+            margin-right: 5px;
+        }
+    
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    
+        button:hover {
+            background-color: #45a049;
+        }
+    
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e0f7fa;
+            border: 1px solid #76f74f;
+            border-radius: 5px;
+        }
+        span{
+            font-size: 1.3em;
+            color: #000;
+        }
+    </style>
+    
 </head>
 <body>
     <div id="main">
@@ -27,7 +107,7 @@
             </div>
             
             <label id="price">Price in One <span id="price-value">Carat</span></label>
-            <input type="number" id="price-input" value="0" min="0" onchange="update_price()">
+            <input type="number" id="price-input" value="300000" min="0" onchange="update_price()">
         </div>
 
         <div id="truth-number-group" class="group">
@@ -65,28 +145,29 @@
                     
                     <p> <span id="const-number-show">1</span> crystle(s) have <span id="weight-num-show">0</span> <span id="const-weight-show">Carat</span> in Weight.</p>
                 </div> 
-                <label>Total number</label>                    
+                <label>Total number</label><br>                    
                 <input type="number" id="total-number-input" value="0" min="0" onchange="numberCombine()">
             </div>
             <div id="total-weight-gp">
                 <h3>Total Weight</h3>
                 <div class="weight-radio">
-                    <label >Carat</label>
-                    <input type="radio" id="weight-carat" name="weight-type" value="carat" onchange="change_weight_type(this.value)">
+                    <input type="radio" id="weight-carat" name="weight-type" value="carat" onchange="change_weight_type(this.value)" checked>
+                    <label for="weight-carat">Carat</label>
                 </div>
 
                 <div class="weight-radio">
-                    <label >Rati</label>
                     <input type="radio" id="weight-rati" name="weight-type" value="rati" onchange="change_weight_type(this.value)">
+                    <label for="weight-rati">Rati</label>
                 </div>
 
                 <div class="weight-radio">
-                    <label >Gram</label>
                     <input type="radio" id="weoght-gram" name="weight-type" value="garm" onchange="change_weight_type(this.value)">
+                    <label for="weight-gram">Gram</label>
                 </div>
-                <label>Total Weight in <span id="total-w-unit">Carat</span></label>
+                <label>Total Weight in <span id="total-w-unit">Carat</span></label><br>
                 <input type="number" id="total-weight-input" value="0" onchange="weightCombine()">
             </div>
+            <button onclick="calculate()">Calculate</button>
         </div>
         <div id="result">
         </div>
@@ -117,7 +198,7 @@
             price_in_one_gram = 5 * price;
             unitLabel.innerHTML = "Carat";
         }else if(weight_unit_in_price==="rati"){
-            price_in_one_gram = (price/1.1) * 5;
+            price_in_one_gram = (price*1.1) * 5;
             unitLabel.innerHTML = "Rati";
         }else{
             price_in_one_gram = price;
@@ -125,7 +206,9 @@
         }
         console.log(price_in_one_gram);
         if(totalType==="number"){
-            numberCombine()
+            numberCombine();
+        }else{
+            weightCombine();
         }
     }
 
@@ -139,9 +222,11 @@
         if(totalType==="number"){
             totalNumberElement.style.display = "block";
             totalWeightElement.style.display = "none";
+            numberCombine();
         }else{
             totalNumberElement.style.display = "none";
             totalWeightElement.style.display = "block";
+            weightCombine();
         }
     }
 
@@ -172,6 +257,7 @@
         const num_of_weight = parseFloat(document.getElementById("const-weight").value);
         const num_of_crystle = parseFloat(document.getElementById("const-number").value);
         document.getElementById("const-number-show").innerHTML = num_of_crystle.toString();
+        document.getElementById("weight-num-show").innerHTML = num_of_weight.toString();
         let totgram = 0;
         if(number_unit==="carat"){
             totgram = num_of_weight* 0.2;
@@ -185,9 +271,13 @@
         const totalnum = parseFloat(document.getElementById("total-number-input").value);
         const totalp = totalnum * gram_in_one_crystle *price_in_one_gram;
         console.log("total price", totalp);
-        const totalWeight ="<p><span>"+ totgram.toFixed(2) + "</span> g, <span>"+ (totgram*5).toFixed(2)+
-            "</span> Carat, <span>"+ (totgram*5);
-        res.innerHTML;
+        const totalWeight ="<p>Total weight: <span>"+ (gram_in_one_crystle*totalnum).toFixed(2) + "</span> g, <span>"+ ((gram_in_one_crystle*totalnum)*5).toFixed(2)+
+            "</span> Carat, <span>"+ (((gram_in_one_crystle*totalnum)*5)*1.1).toFixed(2) +" </span>Rati</p>" ;
+        const totalPrice = "<p>Total price: <span>"+totalp.toFixed(2)+"</span> MMK</p>";
+        const oneprice = totalp/totalnum;
+        const oneCrystle = "<p>One crystle price: <span>"+oneprice.toFixed(2)+"</span> MMK</p>";
+
+        res.innerHTML = "<h1>Results</h1>"+totalPrice + totalWeight +oneCrystle;
     }
     //weight input
     let weight_type = "carat";
@@ -216,8 +306,20 @@
         console.log("total gram", totgram);
         const totalp = totgram * price_in_one_gram;
         console.log("total price", totalp);
-
+        const totalWeight ="<p>Total weight: <span>"+ totgram.toFixed(2) + "</span> g, <span>"+ (totgram*5).toFixed(2)+
+            "</span> Carat, <span>"+ ((totgram*5)*1.1).toFixed(2) +" </span>Rati</p>" ;
+        const totalPrice = "<p>Total price: <span>"+totalp.toFixed(2)+"</span> MMK</p>";
         
+        res.innerHTML = "<h1>Results</h1>"+ totalPrice + totalWeight;
+    }
+
+    function calculate(){
+        update_price();
+        if(totalType==="number"){
+            change_unit_in_truth_number();
+        }else{
+            change_weight_type();
+        }
     }
 </script>
 </body>
