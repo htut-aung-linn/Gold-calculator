@@ -140,10 +140,10 @@
                     </div>
                     <label>Constant Weight (<span id="wtype"></span>)</label>
                     <input type="number" id="const-weight" min="0" value="0" onchange="numberCombine()">
-                    <label id="price">Number of Crystle</label>
+                    <label id="price">Number of Crystal</label>
                     <input type="number" id="const-number" min="1" value="1" onchange="numberCombine()">
                     
-                    <p> <span id="const-number-show">1</span> crystle(s) have <span id="weight-num-show">0</span> <span id="const-weight-show">Carat</span> in Weight.</p>
+                    <p> <span id="const-number-show">1</span> crystal(s) have <span id="weight-num-show">0</span> <span id="const-weight-show">Carat</span> in Weight.</p>
                 </div> 
                 <label>Total number</label><br>                    
                 <input type="number" id="total-number-input" value="0" min="0" onchange="numberCombine()">
@@ -275,7 +275,7 @@
             "</span> Carat, <span>"+ (((gram_in_one_crystle*totalnum)*5)*1.1).toFixed(2) +" </span>Rati</p>" ;
         const totalPrice = "<p>Total price: <span>"+totalp.toFixed(2)+"</span> MMK</p>";
         const oneprice = totalp/totalnum;
-        const oneCrystle = "<p>One crystle price: <span>"+oneprice.toFixed(2)+"</span> MMK</p>";
+        const oneCrystle = "<p>One crystal price: <span>"+oneprice.toFixed(2)+"</span> MMK</p>";
 
         res.innerHTML = "<h1>Results</h1>"+totalPrice + totalWeight +oneCrystle;
     }
